@@ -2,8 +2,14 @@ package cn.stars.storm.module.modules.movement;
 
 import cn.stars.storm.module.Module;
 import cn.stars.storm.module.Category;
+import cn.stars.storm.utils.ChatUtils;
+import cn.stars.storm.utils.RenderUtils;
+import et.event.EventHandler;
+import et.event.events.EventPreUpdate;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
+
+import java.awt.*;
 
 public class Sprint extends Module {
     public static Minecraft mc;
@@ -13,11 +19,16 @@ public class Sprint extends Module {
 
     @Override
     public void onEnable() {
-        System.out.println("Sprint Enabled!");
+        ChatUtils.displayMessage("Sprint Enabled.");
     }
 
     @Override
     public void onDisable() {
-        System.out.println("Sprint Disabled!");
+        ChatUtils.displayMessage("Sprint Disabled.");
+    }
+
+    @EventHandler
+    private void onUpdate(EventPreUpdate event) {
+        mc.gameSettings.keyBindSprint.pressed = true;
     }
 }

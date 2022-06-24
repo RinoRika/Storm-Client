@@ -36,6 +36,10 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
+
+import et.event.EventBus;
+import et.event.events.EventKey;
+import et.event.events.EventTick;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -217,7 +221,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public int displayWidth;
     public int displayHeight;
     private boolean field_181541_X = false;
-    private Timer timer = new Timer(20.0F);
+    public Timer timer = new Timer(20.0F);
 
     /** Instance of PlayerUsageSnooper. */
     private PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("client", this, MinecraftServer.getCurrentTimeMillis());
@@ -1717,6 +1721,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void runTick() throws IOException
     {
+        EventBus.getInstance().call(new EventTick());
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;
@@ -1923,6 +1928,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     }
                     else
                     {
+                        EventBus.getInstance().call(new EventKey(k));
                         if (k == 1)
                         {
                             this.displayInGameMenu();
